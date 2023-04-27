@@ -53,4 +53,8 @@ public class ShopUI : MonoBehaviour
         }
         ShopItems.Clear();
     }
+    public void Start()
+    {
+        
+    }
 }

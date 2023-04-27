@@ -8,7 +8,7 @@ public class UIManager : MonoBehaviour
     public void SelectTowerType(int towerType)
     {
         TowerType type = (TowerType)towerType;
-        BuildManager.instance.SetTowerToBuild(type);
+        //BuildManager.instance.SetTowerToBuild(type);
     }
     public void ReleaseSpawn()
     {

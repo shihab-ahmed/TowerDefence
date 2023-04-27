@@ -5,43 +5,36 @@ using UnityEngine;
 public class BuildManager : MonoBehaviour
 {
     public static BuildManager instance;
-    public GameObject cannonTowerPrefab;
-    public GameObject mortarTowerPrefab;
-    public GameObject airDefenceTowerPrefab;
-    public GameObject laserTowerPrefab;
-
-    private GameObject turretToBuild;
+    [SerializeField] private GameObject turretToBuildPrefab;
+    [SerializeField] private Node selectedNode;
     private void Awake()
     {
-        if(instance != null)
+        if (instance != null)
         {
-            Debug.LogError("More than one buildmanager in scene");
+            Debug.LogError("More than one BuildManager in scene!");
+            return;
         }
         instance = this;
     }
+    public bool CanBuild { get { return turretToBuildPrefab != null; } }
+    public void SetTurretToBuild(GameObject turretToBuildPrefab)
+    {
+        this.turretToBuildPrefab = turretToBuildPrefab;
+    }
     public GameObject GetTurretToBuild()
     {
-        return turretToBuild;
+        return turretToBuildPrefab;
     }
-    public void SetTowerToBuild(TowerType towerType)
+    public GameObject BuildTurretOn(Node node)
     {
-        switch (towerType)
+        GameObject turret = (GameObject)Instantiate(turretToBuildPrefab, node.transform.position + Vector3.up * 0.5f, Quaternion.identity);
+        Tower tower = turret.GetComponent<Tower>();
+        if(tower == null)
         {
-            case TowerType.Cannon:
-                turretToBuild = cannonTowerPrefab;
-                break;
-            case TowerType.Mortar:
-                turretToBuild = mortarTowerPrefab;
-                break;
-            case TowerType.Laser:
-                turretToBuild = airDefenceTowerPrefab;
-                break;
-            case TowerType.AirDefence:
-                turretToBuild = laserTowerPrefab;
-                break;
-            default:
-                turretToBuild = null;
-                break;
+            Debug.LogError("tower component not found");
+            return null;
         }
+        Player.Instance.CurrentMoney -= tower.GetBuildCost();
+        return turret;
     }
 }

@@ -10,6 +10,7 @@ public class GameManager : Singleton<GameManager>
     public Player player;
     public ShopManager shopManager;
     public UIManager uiManager;
+    public BuildManager buildManager;
     // Initialization
     private void Start()
     {
@@ -32,28 +33,16 @@ public class GameManager : Singleton<GameManager>
         {
             Debug.LogError("UIManager not found in the scene.");
         }
+        buildManager = FindObjectOfType<BuildManager>();
+        if (buildManager == null)
+        {
+            Debug.LogError("buildManager not found in the scene.");
+        }
     }
     protected override void Awake()
     {
         base.Awake(); // Important for Singleton initialization
         
-    }
-
-    public void AddScore(int points)
-    {
-        //score += points;
-        //Debug.Log("Score: " + score);
-    }
-
-    public void LoseLife()
-    {
-        //lives--;
-        //Debug.Log("Lives: " + lives);
-
-        //if (lives <= 0)
-        //{
-        //    GameOver();
-        //}
     }
 
     private void GameOver()
